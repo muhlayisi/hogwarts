@@ -3,6 +3,7 @@ package com.maringa.hogwarts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -91,6 +92,27 @@ public class Houses extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        Intent i;
 
+        //Switching screens on click event
+        switch (v.getId()){
+            case R.id.house1_card : i = new Intent(this, HouseSelected.class);
+                i.putExtra("data", jsonObject1.toString());
+                startActivity(i);
+                break;
+            case R.id.house2_card : i = new Intent(this, HouseSelected.class);
+                i.putExtra("data", jsonObject2.toString());
+                startActivity(i);
+                break;
+            case R.id.house3_card : i = new Intent(this, HouseSelected.class);
+                i.putExtra("data", jsonObject3.toString());
+                startActivity(i);
+                break;
+            case R.id.house4_card : i = new Intent(this, HouseSelected.class);
+                i.putExtra("data", jsonObject4.toString());
+                startActivity(i);
+                break;
+            default: break;
+        }
     }
 }
