@@ -105,7 +105,7 @@ public class HouseSelected extends AppCompatActivity {
                     for(int i = 0; i < jsonMembersArray.length(); i++){
                         member_name = jsonMembersArray.getJSONObject(i).getString("name");
 
-                        CreateCardViewProgrammatically(member_name);
+                        CreateCardView(member_name);
                     }
 
                 } catch (JSONException e) {
@@ -123,7 +123,7 @@ public class HouseSelected extends AppCompatActivity {
         rQueue.add(request);
     }
 
-    public void CreateCardViewProgrammatically(String member_name){
+    public void CreateCardView(String member_name){
         cardview = new CardView(this);
         layoutparams = new LayoutParams(
                 LayoutParams.MATCH_PARENT,

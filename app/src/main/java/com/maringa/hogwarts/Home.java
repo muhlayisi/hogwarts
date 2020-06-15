@@ -33,6 +33,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         //Switching screens on click event
         switch (v.getId()){
             case R.id.houses_card : i = new Intent(this, Houses.class); startActivity(i); break;
+            case R.id.students_card : i = new Intent(this, Students.class); startActivity(i); break;
             default: break;
         }
     }
