@@ -66,7 +66,13 @@ public class StudentSelected extends AppCompatActivity {
 
                     txtStudentName.setText(jsonObject.getString("name"));
                     txtStudentRole.append(jsonObject.getString("role"));
-                    txtStudentHouse.append(jsonObject.getString("house"));
+
+                    if(jsonObject.has("house")){
+                        txtStudentHouse.append(jsonObject.getString("house"));
+                    }else{
+                        txtStudentHouse.append("Unknown");
+                    }
+
                     txtStudentSchool.append(jsonObject.getString("school"));
                     txtMinistryOfMagic.append(jsonObject.getBoolean("ministryOfMagic")+"");
                     txtOrderOfPhoenix.append(jsonObject.getBoolean("orderOfThePhoenix")+"");
