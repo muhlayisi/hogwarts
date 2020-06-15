@@ -26,7 +26,7 @@ public class HouseSelected extends AppCompatActivity {
     private TextView txtHouseName, txtHouseFounder, txtHouseHead, txtHouseGhost, txtHouseMascot,
             txtHouseSchool, txtHouseValues, txtHouseColors, txtMember;
 
-    private JSONObject jsonObject1;
+    private JSONObject jsonObject;
     private RequestQueue rQueue;
     private GridLayout gridLayout;
     private CardView cardview;
@@ -50,39 +50,13 @@ public class HouseSelected extends AppCompatActivity {
         if(getIntent().getExtras() != null) {
 
             try {
-                String house_id;
-                JSONObject jsonObject = new JSONObject(getIntent().getStringExtra("data"));
-
-                house_id = jsonObject.getString("_id");
-                txtHouseName.setText(jsonObject.getString("name"));
-                txtHouseFounder.append(jsonObject.getString("founder"));
-                txtHouseHead.append(jsonObject.getString("headOfHouse"));
-                txtHouseGhost.append(jsonObject.getString("houseGhost"));
-                txtHouseMascot.append(jsonObject.getString("mascot"));
-
-                if(jsonObject.getString("name").equalsIgnoreCase("Slytherin")){
-                    txtHouseSchool.append("Hogwarts School of Witchcraft and Wizardry");
-                }else{
-                    txtHouseSchool.append(jsonObject.getString("school"));
-                }
-
-                String values = jsonObject.getString("values")
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace("\"", "");
-                txtHouseValues.append(values);
-
-                String colours = jsonObject.getString("colors")
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace("\"", "");
-                txtHouseColors.append(colours);
+                String house_id = getIntent().getStringExtra("house_id");
 
                 rQueue = Volley.newRequestQueue(this);
 
                 jsonParse(house_id);
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -96,18 +70,40 @@ public class HouseSelected extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 String member_name;
                 try {
-                    jsonObject1 = response.getJSONObject(0);
+                    jsonObject = response.getJSONObject(0);
 
-                    JSONArray jsonMembersArray = jsonObject1.getJSONArray("members");
+                    txtHouseName.setText(jsonObject.getString("name"));
+                    txtHouseFounder.append(jsonObject.getString("founder"));
+                    txtHouseHead.append(jsonObject.getString("headOfHouse"));
+                    txtHouseGhost.append(jsonObject.getString("houseGhost"));
+                    txtHouseMascot.append(jsonObject.getString("mascot"));
+
+                    if(jsonObject.has("school")){
+                        txtHouseSchool.append(jsonObject.getString("school"));
+                    }else{
+                        txtHouseSchool.append("Unknown");
+                    }
+
+                    String values = jsonObject.getString("values")
+                            .replace("[", "")
+                            .replace("]", "")
+                            .replace("\"", "");
+                    txtHouseValues.append(values);
+                    String colours = jsonObject.getString("colors")
+                            .replace("[", "")
+                            .replace("]", "")
+                            .replace("\"", "");
+                    txtHouseColors.append(colours);
+
+                    JSONArray jsonMembersArray = jsonObject.getJSONArray("members");
 
                     gridLayout.setRowCount(jsonMembersArray.length());
 
                     for(int i = 0; i < jsonMembersArray.length(); i++){
                         member_name = jsonMembersArray.getJSONObject(i).getString("name");
 
-                        CreateCardView(member_name);
+                        CreateCardViewProgrammatically(member_name);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -123,7 +119,7 @@ public class HouseSelected extends AppCompatActivity {
         rQueue.add(request);
     }
 
-    public void CreateCardView(String member_name){
+    public void CreateCardViewProgrammatically(String member_name){
         cardview = new CardView(this);
         layoutparams = new LayoutParams(
                 LayoutParams.MATCH_PARENT,

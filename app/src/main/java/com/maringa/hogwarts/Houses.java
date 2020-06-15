@@ -4,8 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,10 +27,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Houses extends AppCompatActivity implements View.OnClickListener{
-    private CardView house1Card, house2Card, house3Card, house4Card;
-    private TextView txtHouses1, txtHouses2, txtHouses3, txtHouses4;
-    private JSONObject jsonObject1, jsonObject2, jsonObject3, jsonObject4;
+public class Houses extends AppCompatActivity {
+    private GridLayout gridLayout;
+    private CardView cardView;
+    private LinearLayout.LayoutParams layoutParams;
+    private LinearLayout linearLayout;
+    private ImageView imageView;
+    private TextView txtHouse;
+
+    private JSONObject jsonObject;
     private RequestQueue rQueue;
 
     @Override
@@ -30,24 +43,7 @@ public class Houses extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_houses);
 
-        //Defining cards
-        house1Card = findViewById(R.id.house1_card);
-        house2Card = findViewById(R.id.house2_card);
-        house3Card = findViewById(R.id.house3_card);
-        house4Card = findViewById(R.id.house4_card);
-
-        //Add onClick listener to the cards
-        house1Card.setOnClickListener(this);
-        house2Card.setOnClickListener(this);
-        house3Card.setOnClickListener(this);
-        house4Card.setOnClickListener(this);
-
-        //Defining Text Views
-        txtHouses1 = findViewById(R.id.text_view_house1);
-        txtHouses2 = findViewById(R.id.text_view_house2);
-        txtHouses3 = findViewById(R.id.text_view_house3);
-        txtHouses4 = findViewById(R.id.text_view_house4);
-
+        gridLayout = findViewById(R.id.gridlayout_houses);
         rQueue = Volley.newRequestQueue(this);
 
         jsonParse();
@@ -59,21 +55,17 @@ public class Houses extends AppCompatActivity implements View.OnClickListener{
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                String house_id, house_name;
                 try {
-                    jsonObject1 = response.getJSONObject(0);
-                    jsonObject2 = response.getJSONObject(1);
-                    jsonObject3 = response.getJSONObject(2);
-                    jsonObject4 = response.getJSONObject(3);
 
-                    String house1Name = jsonObject1.getString("name");
-                    String house2Name = jsonObject2.getString("name");
-                    String house3Name = jsonObject3.getString("name");
-                    String house4Name = jsonObject4.getString("name");
+                    for(int i = 0; i < response.length(); i++){
 
-                    txtHouses1.setText(house1Name);
-                    txtHouses2.setText(house2Name);
-                    txtHouses3.setText(house3Name);
-                    txtHouses4.setText(house4Name);
+                        jsonObject = response.getJSONObject(i);
+                        house_id = jsonObject.getString("_id");
+                        house_name = jsonObject.getString("name");
+
+                        CreateCardView(house_id, house_name);
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -90,29 +82,74 @@ public class Houses extends AppCompatActivity implements View.OnClickListener{
         rQueue.add(request);
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent i;
+    public void CreateCardView(String house_id, String house_name){
+        cardView = new CardView(this);
+        layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        cardView.setLayoutParams(layoutParams);
+        cardView.setId(View.generateViewId());
+        cardView.setTag(house_id);
+        cardView.setClickable(Boolean.TRUE);
+        cardView.setForeground(getSelectedItemDrawable());
+        cardView.setCardElevation(6);
+        cardView.setRadius(12);
+        cardView.setCardBackgroundColor(Color.WHITE);
 
-        //Switching screens on click event
-        switch (v.getId()){
-            case R.id.house1_card : i = new Intent(this, HouseSelected.class);
-                i.putExtra("data", jsonObject1.toString());
-                startActivity(i);
-                break;
-            case R.id.house2_card : i = new Intent(this, HouseSelected.class);
-                i.putExtra("data", jsonObject2.toString());
-                startActivity(i);
-                break;
-            case R.id.house3_card : i = new Intent(this, HouseSelected.class);
-                i.putExtra("data", jsonObject3.toString());
-                startActivity(i);
-                break;
-            case R.id.house4_card : i = new Intent(this, HouseSelected.class);
-                i.putExtra("data", jsonObject4.toString());
-                startActivity(i);
-                break;
-            default: break;
-        }
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) cardView.getLayoutParams();
+        layoutParams.setMargins(50, 0, 50, 50);
+        cardView.requestLayout();
+
+        linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setPadding(16, 16, 16, 16);
+        linearLayout.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams linParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        );
+        linearLayout.setLayoutParams(linParams);
+
+        imageView = new ImageView(this);
+        imageView.setBackgroundResource(R.drawable.location_city_24);
+        LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(200, 200);
+        imageView.setLayoutParams(layoutParams2);
+
+        txtHouse = new TextView(this);
+        txtHouse.setText(house_name);
+        txtHouse.setTextColor(Color.rgb(111, 111, 111));
+        txtHouse.setTextSize(18);
+        txtHouse.setPadding(25,25,25,10);
+        txtHouse.setGravity(Gravity.CENTER);
+
+        linearLayout.addView(imageView);
+        linearLayout.addView(txtHouse);
+
+        cardView.addView(linearLayout);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSelectedHouse(v.getTag().toString());
+            }
+        });
+
+        gridLayout.addView(cardView);
+    }
+
+    public Drawable getSelectedItemDrawable() {
+        int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray ta = this.obtainStyledAttributes(attrs);
+        Drawable selectedItemDrawable = ta.getDrawable(0);
+        ta.recycle();
+        return selectedItemDrawable;
+    }
+
+    public void getSelectedHouse(String house_id){
+        Intent i;
+        i = new Intent(this, HouseSelected.class);
+        i.putExtra("house_id", house_id);
+        startActivity(i);
     }
 }
