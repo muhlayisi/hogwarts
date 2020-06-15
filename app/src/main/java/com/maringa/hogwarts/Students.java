@@ -3,6 +3,7 @@ package com.maringa.hogwarts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -117,7 +118,7 @@ public class Students extends AppCompatActivity {
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getSelectedStudent(v.getTag().toString());
             }
         });
 
@@ -130,5 +131,12 @@ public class Students extends AppCompatActivity {
         Drawable selectedItemDrawable = ta.getDrawable(0);
         ta.recycle();
         return selectedItemDrawable;
+    }
+
+    public void getSelectedStudent(String student_id){
+        Intent i;
+        i = new Intent(this, StudentSelected.class);
+        i.putExtra("student_id", student_id);
+        startActivity(i);
     }
 }

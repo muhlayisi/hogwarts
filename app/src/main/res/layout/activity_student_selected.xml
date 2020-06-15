@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudentSelected">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txt_student_name"
+                android:text=""
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_student_role"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_student_name"
+                android:text="Role: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_student_house"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_student_role"
+                android:text="House: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_student_school"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_student_house"
+                android:text="School: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_ministry_of_magic"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_student_school"
+                android:text="Ministry of Magic: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_order_of_phoenix"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_ministry_of_magic"
+                android:text="Order of The Phoenix: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_dumbledores_army"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_order_of_phoenix"
+                android:text="Dumbledore's Army: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_death_eater"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_dumbledores_army"
+                android:text="Death Eater: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_blood_status"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_death_eater"
+                android:text="Blood Status: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_species"
+                android:layout_marginTop="6dp"
+                android:layout_below="@id/txt_blood_status"
+                android:text="Species: "
+                android:textSize="14sp"
+                android:textColor="#183C13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
